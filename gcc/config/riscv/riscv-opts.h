@@ -319,4 +319,10 @@ enum riscv_entity
 #define TARGET_VECTOR_VLS                                                      \
   (TARGET_VECTOR && riscv_autovec_preference == RVV_SCALABLE)
 
+/* TLS types.  */
+enum riscv_tls_type {
+  TLS_TRADITIONAL,
+  TLS_DESCRIPTORS
+};
+
 #endif /* ! GCC_RISCV_OPTS_H */

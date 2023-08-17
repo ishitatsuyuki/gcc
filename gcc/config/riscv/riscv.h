@@ -59,6 +59,7 @@ extern const char *riscv_multi_lib_check (int argc, const char **argv);
    --with-abi is ignored if -mabi is specified.
    --with-tune is ignored if -mtune or -mcpu is specified.
    --with-isa-spec is ignored if -misa-spec is specified.
+   --with-tls is ignored if -mtls-dialect is specified.
 
    But using default -march/-mtune value if -mcpu don't have valid option.  */
 #define OPTION_DEFAULT_SPECS \
@@ -68,8 +69,9 @@ extern const char *riscv_multi_lib_check (int argc, const char **argv);
   {"arch", "%{!march=*:"						\
 	   "  %{!mcpu=*:-march=%(VALUE)}"				\
 	   "  %{mcpu=*:%:riscv_expand_arch_from_cpu(%* %(VALUE))}}" },	\
-  {"abi", "%{!mabi=*:-mabi=%(VALUE)}" }, \
-  {"isa_spec", "%{!misa-spec=*:-misa-spec=%(VALUE)}" }, \
+  {"abi", "%{!mabi=*:-mabi=%(VALUE)}" },				\
+  {"isa_spec", "%{!misa-spec=*:-misa-spec=%(VALUE)}" },			\
+  {"tls", "%{!mtls-dialect=*:-mtls-dialect=%(VALUE)}"},         	\
 
 #ifdef IN_LIBGCC2
 #undef TARGET_64BIT
@@ -1121,5 +1123,8 @@ extern void riscv_remove_unneeded_save_restore_calls (void);
 /* Mode switching (Lazy code motion) for RVV rounding mode instructions.  */
 #define OPTIMIZE_MODE_SWITCHING(ENTITY) (TARGET_VECTOR)
 #define NUM_MODES_FOR_MODE_SWITCHING {VXRM_MODE_NONE, riscv_vector::FRM_NONE}
+
+/* Check TLS Descriptors mechanism is selected.  */
+#define TARGET_TLSDESC (riscv_tls_dialect == TLS_DESCRIPTORS)
 
 #endif /* ! GCC_RISCV_H */
